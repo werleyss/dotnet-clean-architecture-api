@@ -1,0 +1,27 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/src/DotNetCleanArchitecture.API/bin
+/src/DotNetCleanArchitecture.API/obj
+
+/src/DotNetCleanArchitecture.Application/bin
+/src/DotNetCleanArchitecture.Application/obj
+
+/src/DotNetCleanArchitecture.Domain/bin
+/src/DotNetCleanArchitecture.Domain/obj
+
+/src/DotNetCleanArchitecture.Infrastructure/bin
+/src/DotNetCleanArchitecture.Infrastructure/obj
+
+/src/DotNetCleanArchitecture.IoC/bin
+/src/DotNetCleanArchitecture.IoC/obj
+
+/tests/DotNetCleanArchitecture.Application.Tests/bin
+/tests/DotNetCleanArchitecture.Application.Tests/obj
+
+/tests/DotNetCleanArchitecture.Domain.Tests/bin
+/tests/DotNetCleanArchitecture.Domain.Tests/obj
+
+
+/.vs/*

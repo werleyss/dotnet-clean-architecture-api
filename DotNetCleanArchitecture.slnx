@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DotNetCleanArchitecture.API/DotNetCleanArchitecture.API.csproj" Id="2e808344-68d7-445f-81f6-c59146771a30" />
+    <Project Path="src/DotNetCleanArchitecture.Application/DotNetCleanArchitecture.Application.csproj" Id="a6266333-0085-4d79-90f4-61a7e06aaff7" />
+    <Project Path="src/DotNetCleanArchitecture.Domain/DotNetCleanArchitecture.Domain.csproj" Id="12da6117-97f2-4722-9729-fb57cd008426" />
+    <Project Path="src/DotNetCleanArchitecture.Infrastructure/DotNetCleanArchitecture.Infrastructure.csproj" Id="9678c13d-3d69-46d6-9040-58c31c0eecd4" />
+    <Project Path="src/DotNetCleanArchitecture.IoC/DotNetCleanArchitecture.IoC.csproj" Id="ef123ca0-8eee-485d-9256-35f52d96f401" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DotNetCleanArchitecture.Application.Tests/DotNetCleanArchitecture.Application.Tests.csproj" Id="7dc89c04-d8ad-4e31-a845-9eb1220fb479" />
+    <Project Path="tests/DotNetCleanArchitecture.Domain.Tests/DotNetCleanArchitecture.Domain.Tests.csproj" Id="acc5379d-2f0c-4fea-979f-b985a25d0d45" />
+  </Folder>
+</Solution>
