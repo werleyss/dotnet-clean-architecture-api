@@ -3,7 +3,7 @@ using DotNetCleanArchitecture.Domain.Core.Excecoes;
 using DotNetCleanArchitecture.Domain.Core.ObjetosValor;
 using DotNetCleanArchitecture.Domain.Entidades;
 
-namespace DotNetCleanArchitecture.Domain.Tests;
+namespace DotNetCleanArchitecture.Domain.Tests.Empresas;
 
 public class EmpresaTests
 {

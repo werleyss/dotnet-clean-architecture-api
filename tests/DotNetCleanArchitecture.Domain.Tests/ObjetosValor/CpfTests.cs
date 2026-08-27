@@ -1,7 +1,7 @@
 ﻿using DotNetCleanArchitecture.Domain.Core.Excecoes;
 using DotNetCleanArchitecture.Domain.Core.ObjetosValor;
 
-namespace DotNetCleanArchitecture.Domain.Tests;
+namespace DotNetCleanArchitecture.Domain.Tests.ObjetosValor;
 
 public class CpfTests
 {
