@@ -367,4 +367,68 @@ public class ProdutoTests
         produto.Inativar();
         Assert.False(produto.Ativo);
     }
+
+    [Fact]
+    public void Deve_registrar_entrada_de_estoque()
+    {
+        var produto = CriarProduto(estoqueAtual: 10m);
+
+        produto.RegistrarEntradaEstoque(5m);
+
+        Assert.Equal(15m, produto.EstoqueAtual);
+    }
+
+    [Fact]
+    public void Deve_registrar_saida_de_estoque()
+    {
+        var produto = CriarProduto(estoqueAtual: 10m);
+
+        produto.RegistrarSaidaEstoque(3m);
+
+        Assert.Equal(7m, produto.EstoqueAtual);
+    }
+
+    [Fact]
+    public void Deve_permitir_saida_de_estoque_deixar_saldo_negativo()
+    {
+        var produto = CriarProduto(estoqueAtual: 2m);
+
+        produto.RegistrarSaidaEstoque(5m);
+
+        Assert.Equal(-3m, produto.EstoqueAtual);
+    }
+
+    [Fact]
+    public void Deve_arredondar_quantidade_do_movimento_de_estoque()
+    {
+        var produto = CriarProduto(estoqueAtual: 0m);
+
+        produto.RegistrarEntradaEstoque(2.123456789m);
+
+        Assert.Equal(2.1235m, produto.EstoqueAtual);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public void Deve_impedir_entrada_de_estoque_com_quantidade_invalida(decimal quantidade)
+    {
+        var produto = CriarProduto();
+
+        var excecao = Assert.Throws<ExcecaoDeDominio>(() => produto.RegistrarEntradaEstoque(quantidade));
+
+        Assert.Equal("A quantidade do movimento de estoque deve ser maior que zero.", excecao.Message);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public void Deve_impedir_saida_de_estoque_com_quantidade_invalida(decimal quantidade)
+    {
+        var produto = CriarProduto();
+
+        var excecao = Assert.Throws<ExcecaoDeDominio>(() => produto.RegistrarSaidaEstoque(quantidade));
+
+        Assert.Equal("A quantidade do movimento de estoque deve ser maior que zero.", excecao.Message);
+    }
 }
