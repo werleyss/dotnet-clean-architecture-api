@@ -1,6 +1,6 @@
 namespace DotNetCleanArchitecture.Domain.Core.Enum
 {
-    public enum StatusNfce
+    public enum StatusDocumentoFiscal
     {
         Pendente = 1,
         Autorizada = 2,

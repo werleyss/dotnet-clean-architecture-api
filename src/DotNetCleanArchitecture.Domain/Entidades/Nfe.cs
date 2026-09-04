@@ -5,62 +5,66 @@ using DotNetCleanArchitecture.Domain.Core.Excecoes;
 
 namespace DotNetCleanArchitecture.Domain.Entidades
 {
-    public class Nfce : Entidade
+    public class Nfe : Entidade
     {
         public Guid VendaId { get; private set; }
         public int Numero { get; private set; }
         public int Serie { get; private set; }
         public AmbienteEmissao Ambiente { get; private set; }
         public TipoEmissao TipoEmissao { get; private set; }
+        public ModalidadeFrete ModalidadeFrete { get; private set; }
+        public string? InformacoesComplementares { get; private set; }
         public StatusDocumentoFiscal Status { get; private set; }
         public DateTime DataEmissao { get; private set; }
 
         public string? ChaveAcesso { get; private set; }
         public string? ProtocoloAutorizacao { get; private set; }
         public DateTime? DataAutorizacao { get; private set; }
-        public string? QrCode { get; private set; }
         public string? MotivoStatus { get; private set; }
 
         public string? ProtocoloCancelamento { get; private set; }
         public string? JustificativaCancelamento { get; private set; }
         public DateTime? DataCancelamento { get; private set; }
 
-        private Nfce()
+        private Nfe()
         {
         }
 
-        public Nfce(Guid vendaId,
-                   int numero,
-                   int serie,
-                   AmbienteEmissao ambiente,
-                   TipoEmissao tipoEmissao = TipoEmissao.Normal)
+        public Nfe(Guid vendaId,
+                  int numero,
+                  int serie,
+                  AmbienteEmissao ambiente,
+                  ModalidadeFrete modalidadeFrete,
+                  string? informacoesComplementares = null,
+                  TipoEmissao tipoEmissao = TipoEmissao.Normal)
         {
             ValidarVendaId(vendaId);
             ValidarNumero(numero);
             ValidarSerie(serie);
             ValidarAmbiente(ambiente);
             ValidarTipoEmissao(tipoEmissao);
+            ValidarModalidadeFrete(modalidadeFrete);
 
             VendaId = vendaId;
             Numero = numero;
             Serie = serie;
             Ambiente = ambiente;
             TipoEmissao = tipoEmissao;
+            ModalidadeFrete = modalidadeFrete;
+            InformacoesComplementares = informacoesComplementares?.Trim();
             Status = StatusDocumentoFiscal.Pendente;
             DataEmissao = DateTime.Now;
         }
 
-        public void Autorizar(string chaveAcesso, string protocoloAutorizacao, string qrCode)
+        public void Autorizar(string chaveAcesso, string protocoloAutorizacao)
         {
             ValidarStatusPendente("autorizada");
 
             chaveAcesso = ValidarChaveAcesso(chaveAcesso);
             ValidarTextoObrigatorio(protocoloAutorizacao, "O protocolo de autorização");
-            ValidarTextoObrigatorio(qrCode, "O QR Code");
 
             ChaveAcesso = chaveAcesso;
             ProtocoloAutorizacao = protocoloAutorizacao.Trim();
-            QrCode = qrCode.Trim();
             DataAutorizacao = DateTime.Now;
             Status = StatusDocumentoFiscal.Autorizada;
         }
@@ -87,7 +91,7 @@ namespace DotNetCleanArchitecture.Domain.Entidades
         {
             if (Status != StatusDocumentoFiscal.Autorizada)
                 throw new ExcecaoDeDominio(
-                    "Somente uma NFC-e autorizada pode ser cancelada.");
+                    "Somente uma NF-e autorizada pode ser cancelada.");
 
             ValidarTextoObrigatorio(protocoloCancelamento, "O protocolo de cancelamento");
             ValidarJustificativaCancelamento(justificativa);
@@ -102,21 +106,21 @@ namespace DotNetCleanArchitecture.Domain.Entidades
         {
             if (vendaId == Guid.Empty)
                 throw new ExcecaoDeDominio(
-                    "A venda da NFC-e deve ser informada.");
+                    "A venda da NF-e deve ser informada.");
         }
 
         private static void ValidarNumero(int numero)
         {
             if (numero <= 0)
                 throw new ExcecaoDeDominio(
-                    "O número da NFC-e deve ser informado.");
+                    "O número da NF-e deve ser informado.");
         }
 
         private static void ValidarSerie(int serie)
         {
             if (serie <= 0)
                 throw new ExcecaoDeDominio(
-                    "A série da NFC-e deve ser informada.");
+                    "A série da NF-e deve ser informada.");
         }
 
         private static void ValidarAmbiente(AmbienteEmissao ambiente)
@@ -133,24 +137,31 @@ namespace DotNetCleanArchitecture.Domain.Entidades
                     "O tipo de emissão informado é inválido.");
         }
 
+        private static void ValidarModalidadeFrete(ModalidadeFrete modalidadeFrete)
+        {
+            if (!System.Enum.IsDefined(modalidadeFrete))
+                throw new ExcecaoDeDominio(
+                    "A modalidade de frete informada é inválida.");
+        }
+
         private void ValidarStatusPendente(string acao)
         {
             if (Status != StatusDocumentoFiscal.Pendente)
                 throw new ExcecaoDeDominio(
-                    $"Somente uma NFC-e pendente pode ser {acao}.");
+                    $"Somente uma NF-e pendente pode ser {acao}.");
         }
 
         private static string ValidarChaveAcesso(string chaveAcesso)
         {
             if (string.IsNullOrWhiteSpace(chaveAcesso))
                 throw new ExcecaoDeDominio(
-                    "A chave de acesso da NFC-e deve ser informada.");
+                    "A chave de acesso da NF-e deve ser informada.");
 
             chaveAcesso = SomenteNumeros(chaveAcesso);
 
             if (chaveAcesso.Length != 44)
                 throw new ExcecaoDeDominio(
-                    "A chave de acesso da NFC-e deve conter 44 dígitos.");
+                    "A chave de acesso da NF-e deve conter 44 dígitos.");
 
             return chaveAcesso;
         }
