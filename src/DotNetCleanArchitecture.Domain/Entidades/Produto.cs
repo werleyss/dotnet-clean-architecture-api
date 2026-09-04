@@ -107,6 +107,22 @@ namespace DotNetCleanArchitecture.Domain.Entidades
 
         public void Inativar() => Ativo = false;
 
+        public void RegistrarEntradaEstoque(decimal quantidade)
+        {
+            quantidade = ArredondarQuantidade(quantidade);
+            ValidarQuantidadeMovimento(quantidade);
+
+            EstoqueAtual += quantidade;
+        }
+
+        public void RegistrarSaidaEstoque(decimal quantidade)
+        {
+            quantidade = ArredondarQuantidade(quantidade);
+            ValidarQuantidadeMovimento(quantidade);
+
+            EstoqueAtual -= quantidade;
+        }
+
         private static void ValidarCodigo(string codigo)
         {
             if (string.IsNullOrWhiteSpace(codigo))
@@ -196,6 +212,16 @@ namespace DotNetCleanArchitecture.Domain.Entidades
             if (pesoBruto < pesoLiquido)
                 throw new ExcecaoDeDominio(
                     "O peso bruto não pode ser menor que o peso líquido.");
+        }
+
+        private static decimal ArredondarQuantidade(decimal quantidade)
+            => Math.Round(quantidade, 4, MidpointRounding.AwayFromZero);
+
+        private static void ValidarQuantidadeMovimento(decimal quantidade)
+        {
+            if (quantidade <= 0)
+                throw new ExcecaoDeDominio(
+                    "A quantidade do movimento de estoque deve ser maior que zero.");
         }
 
         private static string SomenteNumeros(string valor)
