@@ -13,7 +13,7 @@ public class NfceTests
         int numero = 1001,
         int serie = 1,
         AmbienteEmissao ambiente = AmbienteEmissao.Homologacao,
-        TipoEmissaoNfce tipoEmissao = TipoEmissaoNfce.Normal)
+        TipoEmissao tipoEmissao = TipoEmissao.Normal)
         => new Nfce(vendaId ?? Guid.NewGuid(), numero, serie, ambiente, tipoEmissao);
 
     private static Nfce CriarNfceAutorizada()
@@ -31,15 +31,15 @@ public class NfceTests
         var vendaId = Guid.NewGuid();
 
         var nfce = new Nfce(vendaId, numero: 1001, serie: 1,
-            ambiente: AmbienteEmissao.Producao, tipoEmissao: TipoEmissaoNfce.Normal);
+            ambiente: AmbienteEmissao.Producao, tipoEmissao: TipoEmissao.Normal);
 
         Assert.NotNull(nfce);
         Assert.Equal(vendaId, nfce.VendaId);
         Assert.Equal(1001, nfce.Numero);
         Assert.Equal(1, nfce.Serie);
         Assert.Equal(AmbienteEmissao.Producao, nfce.Ambiente);
-        Assert.Equal(TipoEmissaoNfce.Normal, nfce.TipoEmissao);
-        Assert.Equal(StatusNfce.Pendente, nfce.Status);
+        Assert.Equal(TipoEmissao.Normal, nfce.TipoEmissao);
+        Assert.Equal(StatusDocumentoFiscal.Pendente, nfce.Status);
         Assert.Null(nfce.ChaveAcesso);
         Assert.Null(nfce.ProtocoloAutorizacao);
         Assert.Null(nfce.DataAutorizacao);
@@ -50,7 +50,7 @@ public class NfceTests
     {
         var nfce = new Nfce(Guid.NewGuid(), 1, 1, AmbienteEmissao.Homologacao);
 
-        Assert.Equal(TipoEmissaoNfce.Normal, nfce.TipoEmissao);
+        Assert.Equal(TipoEmissao.Normal, nfce.TipoEmissao);
     }
 
     [Fact]
@@ -92,7 +92,7 @@ public class NfceTests
     [Fact]
     public void Deve_impedir_tipo_emissao_invalido()
     {
-        var excecao = Assert.Throws<ExcecaoDeDominio>(() => CriarNfce(tipoEmissao: (TipoEmissaoNfce)99));
+        var excecao = Assert.Throws<ExcecaoDeDominio>(() => CriarNfce(tipoEmissao: (TipoEmissao)99));
 
         Assert.Equal("O tipo de emissão informado é inválido.", excecao.Message);
     }
@@ -108,7 +108,7 @@ public class NfceTests
 
         nfce.Autorizar(ChaveAcessoValida, "135240000012345", "https://consulta.fazenda/qr?p=chave");
 
-        Assert.Equal(StatusNfce.Autorizada, nfce.Status);
+        Assert.Equal(StatusDocumentoFiscal.Autorizada, nfce.Status);
         Assert.Equal(ChaveAcessoValida, nfce.ChaveAcesso);
         Assert.Equal("135240000012345", nfce.ProtocoloAutorizacao);
         Assert.Equal("https://consulta.fazenda/qr?p=chave", nfce.QrCode);
@@ -187,7 +187,7 @@ public class NfceTests
 
         nfce.Rejeitar("Duplicidade de NF-e");
 
-        Assert.Equal(StatusNfce.Rejeitada, nfce.Status);
+        Assert.Equal(StatusDocumentoFiscal.Rejeitada, nfce.Status);
         Assert.Equal("Duplicidade de NF-e", nfce.MotivoStatus);
     }
 
@@ -225,7 +225,7 @@ public class NfceTests
 
         nfce.Denegar("CNPJ do destinatário irregular");
 
-        Assert.Equal(StatusNfce.Denegada, nfce.Status);
+        Assert.Equal(StatusDocumentoFiscal.Denegada, nfce.Status);
         Assert.Equal("CNPJ do destinatário irregular", nfce.MotivoStatus);
     }
 
@@ -264,7 +264,7 @@ public class NfceTests
 
         nfce.Cancelar("135250000098765", "Cancelamento solicitado pelo cliente no mesmo dia");
 
-        Assert.Equal(StatusNfce.Cancelada, nfce.Status);
+        Assert.Equal(StatusDocumentoFiscal.Cancelada, nfce.Status);
         Assert.Equal("135250000098765", nfce.ProtocoloCancelamento);
         Assert.Equal("Cancelamento solicitado pelo cliente no mesmo dia", nfce.JustificativaCancelamento);
         Assert.NotNull(nfce.DataCancelamento);

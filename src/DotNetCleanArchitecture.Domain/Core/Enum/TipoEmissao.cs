@@ -1,6 +1,6 @@
 namespace DotNetCleanArchitecture.Domain.Core.Enum
 {
-    public enum TipoEmissaoNfce
+    public enum TipoEmissao
     {
         Normal = 1,
         ContingenciaOffline = 9
