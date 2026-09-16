@@ -62,6 +62,37 @@ namespace DotNetCleanArchitecture.Domain.Entidades
                        bool ativo = true)
         {
             ValidarCodigo(codigo);
+
+            Codigo = codigo.Trim();
+            Ativo = ativo;
+            EstoqueAtual = estoqueAtual;
+
+            Atualizar(
+                descricao, tipo, ncm, cest, origemMercadoria, cst, csosn, ean, eanTrib, un,
+                vlrCusto, vlrVenda, estoqueMinimo, pesoLiquido, pesoBruto, altura, largura,
+                profundidade, infoAdicional);
+        }
+
+        public void Atualizar(string descricao,
+                              TipoProduto tipo,
+                              string ncm,
+                              string? cest,
+                              OrigemMercadoria origemMercadoria,
+                              CstIcms? cst,
+                              Csosn? csosn,
+                              string? ean,
+                              string? eanTrib,
+                              string un,
+                              decimal vlrCusto,
+                              decimal vlrVenda,
+                              decimal estoqueMinimo,
+                              decimal pesoLiquido,
+                              decimal pesoBruto,
+                              decimal altura,
+                              decimal largura,
+                              decimal profundidade,
+                              string? infoAdicional)
+        {
             ValidarDescricao(descricao);
             ncm = ValidarNCM(ncm);
             cest = ValidarCEST(cest);
@@ -79,10 +110,8 @@ namespace DotNetCleanArchitecture.Domain.Entidades
             ValidarNaoNegativo(profundidade, "profundidade");
             ValidarPesoBruto(pesoBruto, pesoLiquido);
 
-            Codigo = codigo.Trim();
             Descricao = descricao.Trim();
             Tipo = tipo;
-            Ativo = ativo;
             NCM = ncm;
             CEST = cest;
             OrigemMercadoria = origemMercadoria;
@@ -93,7 +122,6 @@ namespace DotNetCleanArchitecture.Domain.Entidades
             UN = un.Trim().ToUpperInvariant();
             VlrCusto = vlrCusto;
             VlrVenda = vlrVenda;
-            EstoqueAtual = estoqueAtual;
             EstoqueMinimo = estoqueMinimo;
             PesoLiquido = pesoLiquido;
             PesoBruto = pesoBruto;
