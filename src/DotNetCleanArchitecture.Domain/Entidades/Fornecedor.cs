@@ -34,14 +34,28 @@ namespace DotNetCleanArchitecture.Domain.Entidades
                           string? email,
                           Endereco endereco)
         {
-            ValidarNome(nome);
             ValidarDocumento(documento);
+            Documento = documento;
+
+            Atualizar(nome, fantasia, indicadorIE, ie, im, celular, fone, email, endereco);
+        }
+
+        public void Atualizar(string nome,
+                              string? fantasia,
+                              IndicadorIE indicadorIE,
+                              string? ie,
+                              string? im,
+                              string? celular,
+                              string? fone,
+                              string? email,
+                              Endereco endereco)
+        {
+            ValidarNome(nome);
             ValidarEndereco(endereco);
             ValidarIE(indicadorIE, ie);
 
             Nome = nome.Trim();
             Fantasia = fantasia?.Trim();
-            Documento = documento;
             IndicadorIE = indicadorIE;
             IE = ie?.Trim();
             IM = im?.Trim();
