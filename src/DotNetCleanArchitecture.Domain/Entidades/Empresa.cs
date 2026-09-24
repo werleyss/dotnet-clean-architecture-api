@@ -22,31 +22,45 @@ namespace DotNetCleanArchitecture.Domain.Entidades
         { 
         }
 
-        public Empresa(string nome, 
-                       string fantasia, 
-                       CRT crt, 
-                       Documento documento, 
-                       string? ie, 
-                       string? iest, 
-                       string? im, 
-                       string? cnae, 
-                       string? fone, 
+        public Empresa(string nome,
+                       string fantasia,
+                       CRT crt,
+                       Documento documento,
+                       string? ie,
+                       string? iest,
+                       string? im,
+                       string? cnae,
+                       string? fone,
                        Endereco endereco)
+        {
+            ValidarDocumento(documento);
+            Documento = documento;
+
+            Atualizar(nome, fantasia, crt, ie, iest, im, cnae, fone, endereco);
+        }
+
+        public void Atualizar(string nome,
+                              string fantasia,
+                              CRT crt,
+                              string? ie,
+                              string? iest,
+                              string? im,
+                              string? cnae,
+                              string? fone,
+                              Endereco endereco)
         {
             ValidarNome(nome);
             ValidarFantasia(fantasia);
-            ValidarDocumento(documento);
             ValidarEndereco(endereco);
 
-            Nome = nome;
-            Fantasia = fantasia;
+            Nome = nome.Trim();
+            Fantasia = fantasia.Trim();
             CRT = crt;
-            Documento = documento;
-            IE = ie;
-            IEST = iest;
-            IM = im;
-            CNAE = cnae;
-            Fone = fone;
+            IE = ie?.Trim();
+            IEST = iest?.Trim();
+            IM = im?.Trim();
+            CNAE = cnae?.Trim();
+            Fone = fone?.Trim();
             Endereco = endereco;
         }
 
